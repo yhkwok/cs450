@@ -14,7 +14,7 @@ import java.util.TreeMap;
 
 /**
  *
- * @author YH Jonathan Kwok (Justine Whistine)
+ * @author YH Jonathan Kwok
  */
 public class KNN extends Classifier{
     Integer k = 8;
