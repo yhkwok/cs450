@@ -10,6 +10,7 @@ import weka.core.Debug.Random;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
 import weka.filters.Filter;
+import weka.filters.unsupervised.attribute.Standardize;
 import weka.filters.unsupervised.instance.RemovePercentage;
 
 /**
@@ -34,21 +35,28 @@ public class ExpShell {
         //Randomize it
         data.randomize(new Random(1));
         
-        RemovePercentage filter = new RemovePercentage();
-        filter.setPercentage(70);
+        RemovePercentage rp = new RemovePercentage();
+        rp.setPercentage(70);
         
-        filter.setInputFormat(data);
-        Instances training = Filter.useFilter(data, filter);
+        rp.setInputFormat(data);
+        Instances training = Filter.useFilter(data, rp);
         
-        filter.setInvertSelection(true);
-        filter.setInputFormat(data);
-        Instances test = Filter.useFilter(data, filter);
+        rp.setInvertSelection(true);
+        rp.setInputFormat(data);
+        Instances test = Filter.useFilter(data, rp);
         
-        //Part 5
-        Classifier hardCode = (Classifier) new HardCodeClassifier();
-        hardCode.buildClassifier(training);
-        Evaluation eval = new Evaluation(training);
-        eval.evaluateModel(hardCode, data);
+        //standardize the data
+        Standardize filter = new Standardize();
+        filter.setInputFormat(training);
+        
+        Instances newTest = Filter.useFilter(test, filter);
+        Instances newTraining = Filter.useFilter(training, filter);
+        
+        //Part 5 - Now it's a knn
+        Classifier knn = new KNN();
+        knn.buildClassifier(newTraining);
+        Evaluation eval = new Evaluation(newTraining);
+        eval.evaluateModel(knn, newTest);
         
         System.out.println(eval.toSummaryString("***** Overall results: *****", false));
         
