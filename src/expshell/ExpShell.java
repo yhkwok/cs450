@@ -24,7 +24,7 @@ public class ExpShell {
      * @throws java.lang.Exception
      */
     public static void main(String[] args) throws Exception {
-        String file = "C:\\Users\\YH Jonathan Kwok\\Documents\\NetBeansProjects\\ExpShell\\src\\expshell\\iris.csv";
+        String file = "C:\\Users\\YH Jonathan Kwok\\Documents\\NetBeansProjects\\ExpShell\\src\\expshell\\car.csv";
         
         DataSource source = new DataSource(file);
         Instances data = source.getDataSet();
