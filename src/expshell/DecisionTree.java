@@ -29,10 +29,18 @@ public class DecisionTree extends Classifier{
         return -1;
     }
     
-    public double calEntropy(double a, double b){
+    public double calEntropy(double arrayCounts[]){
         double entropy;
-        double whole = a + b;
-        entropy = (a/whole)*log2(a/whole) - (b/whole)*log2(b/whole);
+        double whole = 0;
+        for (int i = 0; i < arrayCounts.length; i++) {
+            whole += arrayCounts[i];
+        }
+        
+        entropy = (arrayCounts[0]/whole)*log2(arrayCounts[0]/whole);
+        for (int i = 1; i < arrayCounts.length; i++) {           
+            entropy -= (arrayCounts[i]/whole)*log2(arrayCounts[i]/whole);
+        }
+        
         return entropy;
     }
     
