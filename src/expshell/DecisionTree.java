@@ -5,9 +5,11 @@
  */
 package expshell;
 
+import static java.lang.Math.log;
 import weka.classifiers.Classifier;
 import weka.core.Instance;
 import weka.core.Instances;
+import static weka.core.Utils.log2;
 
 /**
  *
@@ -25,6 +27,12 @@ public class DecisionTree extends Classifier{
     public double classifyInstance(Instance i) {
         //I Know Nothing !!!!!!!!!!!!!!!!!!!!!!!!!!!
         return -1;
+    }
+    
+    public double calEntropy(double a, double b){
+        double entropy;
+        entropy = a*log2(a) - b*log2(b);
+        return entropy;
     }
     
 }
