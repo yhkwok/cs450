@@ -5,7 +5,6 @@
  */
 package expshell;
 
-import static java.lang.Math.log;
 import weka.classifiers.Classifier;
 import weka.core.Instance;
 import weka.core.Instances;
