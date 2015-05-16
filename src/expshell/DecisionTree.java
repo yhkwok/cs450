@@ -31,7 +31,8 @@ public class DecisionTree extends Classifier{
     
     public double calEntropy(double a, double b){
         double entropy;
-        entropy = a*log2(a) - b*log2(b);
+        double whole = a + b;
+        entropy = (a/whole)*log2(a/whole) - (b/whole)*log2(b/whole);
         return entropy;
     }
     
