@@ -26,8 +26,8 @@ public class ExpShell {
     public static void main(String[] args) throws Exception {
         String file = "C:\\Users\\YH Jonathan Kwok\\Documents\\NetBeansProjects\\ExpShell\\src\\expshell\\car.csv";
         
-        DataSource source = new DataSource(file);
-        Instances data = source.getDataSet();
+        //DataSource source = new DataSource(file);
+        Instances data = DataSource.read(file);//source.getDataSet();
         
         if(data.classIndex() == -1)
             data.setClassIndex(data.numAttributes() - 1);
