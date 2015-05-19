@@ -26,8 +26,8 @@ public class ExpShell {
     public static void main(String[] args) throws Exception {
         String file = "C:\\Users\\YH Jonathan Kwok\\Documents\\NetBeansProjects\\ExpShell\\src\\expshell\\car.csv";
         
-        //DataSource source = new DataSource(file);
-        Instances data = DataSource.read(file);//source.getDataSet();
+        DataSource source = new DataSource(file);
+        Instances data = source.getDataSet();
         
         if(data.classIndex() == -1)
             data.setClassIndex(data.numAttributes() - 1);
@@ -53,7 +53,7 @@ public class ExpShell {
         Instances newTraining = Filter.useFilter(training, filter);
         
         //Part 5 - Now it's a knn
-        Classifier knn = new KNN();
+        Classifier knn = new DecisionTree();
         knn.buildClassifier(newTraining);
         Evaluation eval = new Evaluation(newTraining);
         eval.evaluateModel(knn, newTest);
