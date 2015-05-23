@@ -13,7 +13,7 @@ public class question {
     double min;
     double max;
     
-    public bool inBoundary(double val){
+    public boolean inBoundary(double val){
         if (min <= val)
             if (max > val)
                 return true;
