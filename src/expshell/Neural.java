@@ -8,6 +8,7 @@ package expshell;
 import java.util.ArrayList;
 import java.util.List;
 import weka.core.Debug.Random;
+import weka.core.Instance;
 
 /**
  *
@@ -15,21 +16,21 @@ import weka.core.Debug.Random;
  */
 public class Neural {
     
-    List<Double> values = new ArrayList<Double>();
+   // List<Double> values = new ArrayList<Double>();
     List<Double> weights = new ArrayList<Double>();
     double randMin = 0.1;
     double randMax = 5.0;
     
-    public Neural(List<Double> vals){
-        values = vals;
+    public Neural(int numAtt){
+        //values = vals;
         //add the bias input at the end
-        values.add(-1.0);
+        //values.add(-1.0);
         //set the weights according to the size of the values we have
-        setWeights();
+        setWeights(numAtt);
     }
     
-    public void setWeights(){
-        for(Double temp : values)
+    public void setWeights(int numAtt){
+        for(int i = 0; i < numAtt + 1; i++)
         {
             Random r = new Random();
             double randomValue = randMin + (randMax - randMin) * r.nextDouble();
@@ -37,14 +38,15 @@ public class Neural {
         }
     }   
     
-    public int cal(){
+    public double cal(Instance ins){
         double sum = 0;
-        for(int i = 0; i < values.size(); i++)
+        sum += -1 * weights.get(0);
+        for(int i = 1; i < weights.size(); i++)
         {
-            sum += values.get(i) * weights.get(i);
+            sum += ins.value(i - 1) * weights.get(i);
         }
         if (sum > 0)
-            return 1;
-        return 0;
+            return 1.0;
+        return 0.0;
     }
 }
