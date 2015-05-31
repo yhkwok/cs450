@@ -5,6 +5,7 @@
  */
 package expshell;
 
+import static java.lang.Math.pow;
 import java.util.ArrayList;
 import java.util.List;
 import weka.core.Debug.Random;
@@ -21,12 +22,12 @@ public class Neural {
     double randMin = 0.1;
     double randMax = 5.0;
     
-    public Neural(int numAtt){
+    public Neural(int numInputs){
         //values = vals;
         //add the bias input at the end
         //values.add(-1.0);
         //set the weights according to the size of the values we have
-        setWeights(numAtt);
+        setWeights(numInputs);
     }
     
     public void setWeights(int numAtt){
@@ -45,8 +46,21 @@ public class Neural {
         {
             sum += ins.value(i - 1) * weights.get(i);
         }
-        if (sum > 0)
-            return 1.0;
-        return 0.0;
+        //if (sum > 0)
+        //    return 1.0;
+        return threshold(sum);
+    }
+    
+    public double calDouble (List<Double> lD){
+        double sum = 0;
+        sum += -1 * weights.get(0);
+        for(int i = 1; i < weights.size(); i++)
+        {
+            sum += lD.get(i - 1) * weights.get(i);
+        }
+        return threshold(sum);
+    }
+    public double threshold(double sum){
+        return 1 / (1 + pow(Math.E, -sum));
     }
 }

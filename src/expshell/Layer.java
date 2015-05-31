@@ -27,10 +27,21 @@ public class Layer {
         
     }
     
-    public void computeNode(Instance ins){
+    public List<Double> computeNode(Instance ins){
+        List<Double> output = new ArrayList<Double>();
         for (Neural temp : nodes)
         {
-            System.out.println(temp.cal(ins));
+            output.add(temp.cal(ins));
         }
-    }       
+        return output;
     }
+    
+    public List<Double> computeDouble(List<Double> lD){
+        List<Double> output = new ArrayList<Double>();
+        for (Neural temp : nodes)
+        {
+            output.add(temp.calDouble(lD));
+        }
+        return output;
+    }
+}
