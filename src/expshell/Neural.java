@@ -17,7 +17,7 @@ import weka.core.Instance;
  */
 public class Neural {
     
-   // List<Double> values = new ArrayList<Double>();
+    List<Double> values = new ArrayList<Double>();
     List<Double> weights = new ArrayList<Double>();
     double randMin = 0.1;
     double randMax = 5.0;
@@ -27,11 +27,11 @@ public class Neural {
         //add the bias input at the end
         //values.add(-1.0);
         //set the weights according to the size of the values we have
-        setWeights(numInputs);
+        setWeights(numInputs + 1);
     }
     
     public void setWeights(int numAtt){
-        for(int i = 0; i < numAtt + 1; i++)
+        for(int i = 0; i < numAtt; i++)
         {
             Random r = new Random();
             double randomValue = randMin + (randMax - randMin) * r.nextDouble();
@@ -52,7 +52,8 @@ public class Neural {
     }
     
     public double calDouble (List<Double> lD){
-        double sum = 0;
+       values = lD;
+       double sum = 0;
         sum += -1 * weights.get(0);
         for(int i = 1; i < weights.size(); i++)
         {

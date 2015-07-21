@@ -15,11 +15,12 @@ import weka.core.Instance;
  */
 public class Layer {
     List<Neural> nodes = new ArrayList<Neural>();
+   List<Double> lastOutput = new ArrayList<Double>();
     public Layer(int numNodes, int numAtt){
         //create and assign some valuse into a list of Double
                 
-        //create nodes by putting list of values in, and add this node into the node list
-        for (int i = 0; i < numNodes; i++)
+        //create nodes by putting list of values in, and add this node into the node list (+1 for the bias node)
+        for (int i = 0; i < numNodes + 1; i++)
         {
             Neural node = new Neural(numAtt);
             nodes.add(node);
@@ -42,6 +43,7 @@ public class Layer {
         {
             output.add(temp.calDouble(lD));
         }
+        lastOutput = output;
         return output;
     }
 }

@@ -20,8 +20,8 @@ public class NeuralClassifier extends Classifier{
     @Override
     public void buildClassifier(Instances i) throws Exception {
         List<Integer> numNodes = new ArrayList<Integer>();
-        numNodes.add(5);
-        numNodes.add(6);
+        //numNodes.add(5);
+        //numNodes.add(6);
         numNodes.add(i.numClasses());
         
         nn = new NeuralNetwork(numNodes.size(), i.numAttributes() - 1, numNodes);
