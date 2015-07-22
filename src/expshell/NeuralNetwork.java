@@ -60,7 +60,7 @@ public class NeuralNetwork {
       Layer lastLayer = layers.get(layers.size() - 1);
       for (int i = 0; i < lastLayer.nodes.size(); i++)
       {
-         double a = lastLayer.lastOutput.get(i);
+         double a = (lastLayer.nodes.get(0)).values.get(i);//lastOutput.get(i);
          double err = a * (1 - a) * (a - 0/*suppose the target value*/);
          outputLayerErrors.add(err);
       }
