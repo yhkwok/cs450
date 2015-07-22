@@ -61,17 +61,18 @@ public class NeuralNetwork {
       for (int i = 0; i < lastLayer.nodes.size(); i++)
       {
          double a = lastLayer.lastOutput.get(i);
-         double err = a * (1 - a) * (a - a/*target value*/);
+         double err = a * (1 - a) * (a - 0/*suppose the target value*/);
          outputLayerErrors.add(err);
       }
 
       Layer leftLayer = layers.get(layers.size() - 2);
       //List of weights between output layer and the left layer of it
       List<Double> newWeightListForLastLayer = new ArrayList<Double>();
+      List<List> listOfLayersOfWeights = new ArrayList<List>();
       for (int i = 0; i < leftLayer.nodes.size(); i++)
       {
          List<Double> targetWeightList = (leftLayer.nodes.get(i)).weights;
-         for(int j = 0; j < lastLayer.nodes.size(); j++)
+         for (int j = 0; j < lastLayer.nodes.size(); j++)
          {
             for (int k = 0; k < targetWeightList.size(); k++)
             {
@@ -81,24 +82,81 @@ public class NeuralNetwork {
             }
          }
       }
+      //put this layer of weights into a collection of layers
+      listOfLayersOfWeights.add(newWeightListForLastLayer);
+
+      //errors in list, then lists in this list.
+      List<List> listOfErrorsLayers = new ArrayList<List>();
+      //then, continue with earlier layers before we head the input layer
+      for (int i = layers.size() - 2; i >= 1; i--)
+      {
+         Layer currentLayer = layers.get(i);
+         List<Double> listOfErrorsInCurrentLayer = new ArrayList<Double>();
+         for (int j = 0; j < currentLayer.nodes.size(); j++)
+         {
+            double a = currentLayer.lastOutput.get(i);
+            double sum = 0;
+            //build a for loop to create the sum of weightJK time errorK
+            for (int k = 0; k < (currentLayer.nodes.get(j)).weights.size(); k++)
+            {
+               sum += ((currentLayer.nodes.get(j)).weights.get(k)) * outputLayerErrors.get(k);
+            }
+            double err = a * (1 - a) * sum;
+            listOfErrorsInCurrentLayer.add(err);            
+         }
+         listOfErrorsLayers.add(listOfErrorsInCurrentLayer);
+         outputLayerErrors = listOfErrorsInCurrentLayer;
+
+         //and then the weights
+         leftLayer = layers.get(i - 1);
+         for (int l = 0; l < leftLayer.nodes.size(); l++)
+         {
+            List<Double> targetWeightList = (leftLayer.nodes.get(l)).weights;
+            for (int j = 0; j < currentLayer.nodes.size(); j++)
+            {
+                double newWeight;
+               for (int k = 0; k < targetWeightList.size(); k++)
+               {
+                  if (i == 1){
+                     newWeight = targetWeightList.get(k) - (.2)
+                        * (outputLayerErrors.get(j)) * ((leftLayer.nodes.get(j)).values.get(l));
+                  }
+                  else {
+                     newWeight = targetWeightList.get(k) - (.2) 
+                        * (outputLayerErrors.get(j)) * (leftLayer.lastOutput.get(l));
+                  }
+                  newWeightListForLastLayer.add(newWeight);
+               }
+            }
+         }
+         //put this layer of weights into a collection of layers
+         listOfLayersOfWeights.add(newWeightListForLastLayer);
+      }//end of the hidden layers
+
+      //apply all the new weights
+      for (int i = listOfLayersOfWeights.size() - 1; i >= 0; i--)
+      {
+         for (int j = 0; j < (listOfLayersOfWeights.get(i)).size(); j++)
+         {
+            ((layers.get(i)).nodes.get(j)).weights = (listOfLayersOfWeights.get(j));//.get(j);
+         }
+      }
 
       
 
-      //continue with earlier layers
-      for (int i = layers.size() - 2; i >= 0; i--)
-      {
-         
-      }
+      
+
+      
       
    }
    
    public double run(Instance inst) {
-      double theReturn;
-      theReturn = forward(inst);
-      backward();
-      
-      
-      
+      double theReturn = 0.0;
+      for (int temp  = 0; temp < 50; temp++)
+      {
+         theReturn = forward(inst);
+         backward();
+      }      
       return theReturn;
    }    
 }

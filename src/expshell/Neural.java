@@ -46,6 +46,13 @@ public class Neural {
         {
             sum += ins.value(i - 1) * weights.get(i);
         }
+        
+        List<Double> temp = new ArrayList<Double>();
+        for (int i = 0; i < ins.numValues(); i++)
+        {
+           temp.add(ins.value(i));
+        }
+        values = temp;
         //if (sum > 0)
         //    return 1.0;
         return threshold(sum);
